@@ -1,0 +1,9 @@
+Good Background Colors for Readers: https://www.cs.cmu.edu/~jbigham/pubs/pdfs/2017/colors.pdf 
+
+#EDD1B0
+
+#B0EDB3
+
+#B0CCED
+
+#EDB0EB

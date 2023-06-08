@@ -1,0 +1,2 @@
+C:\Users\Darren Chan\source\repos\BionicReader\obj\Debug\bionicreader.esproj.SuggestedBindingRedirects.cache
+C:\Users\Darren Chan\source\repos\BionicReader\obj\Debug\bionicreader.esproj.CoreCompileInputs.cache
