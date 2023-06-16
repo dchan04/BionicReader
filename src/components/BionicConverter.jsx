@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState, useRef, createRef } from "react";
 import Button from "react-bootstrap/Button";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReturnBionicText from "./ReturnBionicText";
 import DownloadPDF from "./DownloadBionicText";
-
+import { pdfjs } from "react-pdf";
 import "./BionicConverter.css";
+
+function getFileExtension(fileName) {
+	return fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
+}
 
 function getBionizedTextHTML(text) {
 	// Split the input text into an array of words
@@ -15,15 +19,16 @@ function getBionizedTextHTML(text) {
 	words.forEach(function (word) {
 		if (word.match(/\w+/)) {
 			var halfLength = Math.floor(word.length / 2);
+			var boldedWord;
 			if (halfLength !== 0) {
-				var boldedWord =
+				boldedWord =
 					"**" +
 					word.substring(0, halfLength) +
 					"**" +
 					word.substring(halfLength);
 				convertedWords.push(boldedWord);
 			} else {
-				var boldedWord = "**" + word + "**";
+				boldedWord = "**" + word + "**";
 				convertedWords.push(boldedWord);
 			}
 		} else {
@@ -35,15 +40,78 @@ function getBionizedTextHTML(text) {
 }
 
 function BionicConverter() {
-	const inputRef = React.useRef();
-	const outputRef = React.createRef();
+	const inputRef = useRef();
+	const outputRef = createRef();
 
-	const [input, setInput] = React.useState();
-	const [output, setOutput] = React.useState("");
-	const [originalInput, setOriginalInput] = React.useState();
+	const [input, setInput] = useState();
+	const [output, setOutput] = useState("");
+	const [originalInput, setOriginalInput] = useState();
 
 	const onInput = (event) => {
 		setInput(event.target.value);
+	};
+
+	const extractTextFromPDF = async (content) => {
+		console.log(content);
+		pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+			"pdfjs-dist/build/pdf.worker.min.js",
+			import.meta.url
+		).toString();
+		const loadingTask = pdfjs.getDocument(content);
+
+		try {
+			const pdf = await loadingTask.promise;
+			const numPages = pdf.numPages;
+			let extractedText = "";
+
+			for (let i = 1; i <= numPages; i++) {
+				const page = await pdf.getPage(i);
+				const textContent = await page.getTextContent();
+				const pageText = textContent.items
+					.map((item) => item.str)
+					.join(" ");
+				extractedText += pageText + "\n";
+			}
+
+			setInput(extractedText);
+		} catch (error) {
+			console.error("Error occurred while extracting text:", error);
+		}
+	};
+
+	const handleFileSelect = (event) => {
+		const file = event.target.files[0];
+		const reader = new FileReader();
+		const fileName = file.name;
+		const fileExtension = getFileExtension(fileName);
+		reader.onload = function (event) {
+			if (fileExtension === "txt") {
+				// Handle text file
+				const content = event.target.result;
+				console.log("Found text file");
+				setInput(content);
+			} else if (fileExtension === "pdf") {
+				// Handle PDF file
+				console.log("Found PDF file");
+				const content = event.target.result;
+				extractTextFromPDF(content);
+			} else if (fileExtension === "docx" || fileExtension === "doc") {
+				// Handle Word file
+				console.log("Found docx file");
+			} else {
+				// Unsupported file type
+				setInput("Unsupported file type");
+			}
+		};
+		if (fileExtension === "txt") {
+			reader.readAsText(file);
+		} else {
+			reader.readAsArrayBuffer(file);
+		}
+	};
+
+	const handleUpload = () => {
+		inputRef.current?.click();
 	};
 
 	const ConvertToBionicText = () => {
@@ -64,16 +132,23 @@ function BionicConverter() {
 								className="text-container"
 								ref={inputRef}
 								value={input}
-								placeholder="Paste your text here.
-								"
+								placeholder="Paste your text here."
 								onChange={onInput}
 							></textarea>
+							<input
+								className="d-none"
+								ref={inputRef}
+								onChange={handleFileSelect}
+								type="file"
+							/>
 							<Button
+								type="input"
 								className="buttons"
 								variant="light"
 								size="lg"
+								onClick={handleUpload}
 							>
-								Import
+								Import File
 							</Button>
 						</div>
 						<div className="col-12 col-lg-1 ">
