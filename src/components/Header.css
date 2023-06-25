@@ -1,0 +1,13 @@
+.navbar > .container {
+	justify-content: center;
+}
+
+.modal-content {
+	background-color: #edd1b0;
+}
+
+.modal-body p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2rem;
+	letter-spacing: 0.1em;
+}

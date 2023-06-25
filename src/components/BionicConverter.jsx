@@ -52,7 +52,7 @@ function BionicConverter() {
 	};
 
 	const extractTextFromPDF = async (content) => {
-		console.log(content);
+		//console.log(content);
 		pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 			"pdfjs-dist/build/pdf.worker.min.js",
 			import.meta.url
@@ -100,7 +100,10 @@ function BionicConverter() {
 				console.log("Found docx file");
 			} else {
 				// Unsupported file type
-				setInput("Unsupported file type");
+				setInput(
+					"Unsupported file type. Only .txt and .pdf files are accepted." +
+						"Currently working on support for docx files but there are dependency issues breaking my code when I use the .docx parser library called Mammoth."
+				);
 			}
 		};
 		if (fileExtension === "txt") {
