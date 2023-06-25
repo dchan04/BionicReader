@@ -4,10 +4,43 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReturnBionicText from "./ReturnBionicText";
 import DownloadPDF from "./DownloadBionicText";
 import { pdfjs } from "react-pdf";
+import PizZip from "pizzip";
+import { DOMParser } from "@xmldom/xmldom";
 import "./BionicConverter.css";
 
 function getFileExtension(fileName) {
 	return fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
+}
+
+function str2xml(str) {
+	if (str.charCodeAt(0) === 65279) {
+		// BOM sequence
+		str = str.substr(1);
+	}
+	return new DOMParser().parseFromString(str, "text/xml");
+}
+
+function getParagraphs(content) {
+	const zip = new PizZip(content);
+	const xml = str2xml(zip.files["word/document.xml"].asText());
+	const paragraphsXml = xml.getElementsByTagName("w:p");
+	const paragraphs = [];
+
+	for (let i = 0, len = paragraphsXml.length; i < len; i++) {
+		let fullText = "";
+		const textsXml = paragraphsXml[i].getElementsByTagName("w:t");
+		for (let j = 0, len2 = textsXml.length; j < len2; j++) {
+			const textXml = textsXml[j];
+			if (textXml.childNodes) {
+				fullText += textXml.childNodes[0].nodeValue;
+			}
+		}
+		if (fullText) {
+			paragraphs.push(fullText);
+		}
+	}
+	var docText = paragraphs.join("");
+	return docText;
 }
 
 function getBionizedTextHTML(text) {
@@ -42,7 +75,7 @@ function getBionizedTextHTML(text) {
 function BionicConverter() {
 	const inputRef = useRef();
 	const outputRef = createRef();
-
+	const [paragraphs, setParagraphs] = useState([]);
 	const [input, setInput] = useState();
 	const [output, setOutput] = useState("");
 	const [originalInput, setOriginalInput] = useState();
@@ -50,9 +83,12 @@ function BionicConverter() {
 	const onInput = (event) => {
 		setInput(event.target.value);
 	};
+	const extractTextFromDocx = (content) => {
+		const docxText = getParagraphs(content);
+		setInput(docxText);
+	};
 
 	const extractTextFromPDF = async (content) => {
-		//console.log(content);
 		pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 			"pdfjs-dist/build/pdf.worker.min.js",
 			import.meta.url
@@ -84,11 +120,12 @@ function BionicConverter() {
 		const reader = new FileReader();
 		const fileName = file.name;
 		const fileExtension = getFileExtension(fileName);
+
 		reader.onload = function (event) {
 			if (fileExtension === "txt") {
 				// Handle text file
-				const content = event.target.result;
 				console.log("Found text file");
+				const content = event.target.result;
 				setInput(content);
 			} else if (fileExtension === "pdf") {
 				// Handle PDF file
@@ -98,6 +135,8 @@ function BionicConverter() {
 			} else if (fileExtension === "docx" || fileExtension === "doc") {
 				// Handle Word file
 				console.log("Found docx file");
+				const content = event.target.result;
+				extractTextFromDocx(content);
 			} else {
 				// Unsupported file type
 				setInput(
@@ -108,8 +147,10 @@ function BionicConverter() {
 		};
 		if (fileExtension === "txt") {
 			reader.readAsText(file);
-		} else {
+		} else if (fileExtension === "pdf") {
 			reader.readAsArrayBuffer(file);
+		} else if (fileExtension === ("docx" || "doc")) {
+			reader.readAsBinaryString(file);
 		}
 	};
 
