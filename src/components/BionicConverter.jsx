@@ -116,6 +116,9 @@ function BionicConverter() {
 	};
 
 	const handleFileSelect = (event) => {
+		if (event.target.files.length === 0) {
+			return;
+		}
 		const file = event.target.files[0];
 		const reader = new FileReader();
 		const fileName = file.name;
@@ -179,21 +182,24 @@ function BionicConverter() {
 								placeholder="Paste your text here."
 								onChange={onInput}
 							></textarea>
-							<input
-								className="d-none"
-								ref={inputRef}
-								onChange={handleFileSelect}
-								type="file"
-							/>
-							<Button
-								type="input"
-								className="buttons"
-								variant="light"
-								size="lg"
-								onClick={handleUpload}
-							>
-								Import File
-							</Button>
+							<div>
+								<input
+									className="d-none"
+									ref={inputRef}
+									onChange={handleFileSelect}
+									type="file"
+								/>
+								<Button
+									type="input"
+									className="buttons"
+									variant="light"
+									size="lg"
+									onClick={handleUpload}
+								>
+									Import File
+								</Button>
+							</div>
+							<p>Supported file types: docx, doc, pdf, txt</p>
 						</div>
 						<div className="col-12 col-lg-1 ">
 							<div className="button-container d-grid">
