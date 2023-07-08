@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
