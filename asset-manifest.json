@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/BionicReader/static/css/main.26d6bbb9.css",
+    "main.js": "/BionicReader/static/js/main.a81396ec.js",
+    "static/js/787.60ebaa82.chunk.js": "/BionicReader/static/js/787.60ebaa82.chunk.js",
+    "static/media/pdf.worker.min.js": "/BionicReader/static/media/pdf.worker.min.a5cda30677aea5495261.js",
+    "index.html": "/BionicReader/index.html",
+    "main.26d6bbb9.css.map": "/BionicReader/static/css/main.26d6bbb9.css.map",
+    "main.a81396ec.js.map": "/BionicReader/static/js/main.a81396ec.js.map",
+    "787.60ebaa82.chunk.js.map": "/BionicReader/static/js/787.60ebaa82.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.26d6bbb9.css",
+    "static/js/main.a81396ec.js"
+  ]
+}
