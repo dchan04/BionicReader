@@ -75,7 +75,6 @@ function getBionizedTextHTML(text) {
 function BionicConverter() {
 	const inputRef = useRef();
 	const outputRef = createRef();
-	const [paragraphs, setParagraphs] = useState([]);
 	const [input, setInput] = useState();
 	const [output, setOutput] = useState("");
 	const [originalInput, setOriginalInput] = useState();
