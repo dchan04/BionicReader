@@ -26,13 +26,13 @@ const ReturnPdfText = ({ text }) => {
 const styles = StyleSheet.create({
 	text: {
 		margin: 12,
-		fontSize: 14,
+		fontSize: 16,
 		fontFamily: "Helvetica",
 		textAlign: "justify",
 	},
 	textbold: {
 		margin: 0,
-		fontSize: 14,
+		fontSize: 16,
 		fontFamily: "Helvetica-Bold",
 		textAlign: "justify",
 	},

@@ -24,7 +24,7 @@
 	height: 80%;
 	max-height: 567px;
 	min-width: 300px;
-	border-radius: 10px;
+	border-radius: 1px;
 	overflow-y: auto;
 	color: black;
 	border: 2px solid white;
@@ -48,11 +48,15 @@
 p {
 	margin: 5px;
 	position: relative;
-	color: white;
+	color: black;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1rem;
 	letter-spacing: 0.1em;
 	float: inline-end;
+}
+
+#filetype-text {
+	color: white;
 }
 
 label {
@@ -64,10 +68,12 @@ label {
 }
 
 .buttons {
+	z-index: 1;
 	margin: 5px;
+	width: auto;
 	position: relative;
 	float: left;
-	border-radius: 10px;
+	border-radius: 1px;
 	transition: all 0.3s ease-in-out;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

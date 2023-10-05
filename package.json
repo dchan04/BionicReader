@@ -49,6 +49,7 @@
 		]
 	},
 	"devDependencies": {
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
 		"eslint-config-react-app": "^7.0.1",
 		"gh-pages": "^5.0.0",
 		"jest-editor-support": "^31.0.1"

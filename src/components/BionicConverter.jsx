@@ -180,7 +180,7 @@ function BionicConverter() {
 								value={input}
 								placeholder="Paste your text here."
 								onChange={onInput}
-							></textarea>
+							/>
 							<div>
 								<input
 									className="d-none"
@@ -198,7 +198,9 @@ function BionicConverter() {
 									Import File
 								</Button>
 							</div>
-							<p>Supported file types: docx, doc, pdf, txt</p>
+							<p id="filetype-text">
+								Supported file types: docx, doc, pdf, txt
+							</p>
 						</div>
 						<div className="col-12 col-lg-1 ">
 							<div className="button-container d-grid">
