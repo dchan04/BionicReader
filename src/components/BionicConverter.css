@@ -29,7 +29,7 @@
 	color: black;
 	border: 2px solid white;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1.2rem;
+	font-size: large;
 	letter-spacing: 0.1em;
 	z-index: 1;
 }
@@ -46,13 +46,11 @@
 }
 
 p {
-	margin: 5px;
 	position: relative;
 	color: black;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1rem;
+	font-size: large;
 	letter-spacing: 0.1em;
-	float: inline-end;
 }
 
 #filetype-text {

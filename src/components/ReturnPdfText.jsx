@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
 	text: {
 		margin: 12,
 		fontSize: 16,
-		fontFamily: "Helvetica",
+		fontFamily: "Times-Roman",
 		textAlign: "justify",
 	},
 	textbold: {
 		margin: 0,
 		fontSize: 16,
-		fontFamily: "Helvetica-Bold",
+		fontFamily: "Times-Bold",
 		textAlign: "justify",
 	},
 });
